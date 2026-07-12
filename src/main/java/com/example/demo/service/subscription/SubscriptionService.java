@@ -1,19 +1,17 @@
 package com.example.demo.service.subscription;
 
+import com.example.demo.endpoint.event.EventProducer;
+import com.example.demo.endpoint.event.model.SubscriptionConfirmed;
 import com.example.demo.entity.Course;
 import com.example.demo.entity.Subscription;
 import com.example.demo.entity.User;
-import com.example.demo.mail.Email;
-import com.example.demo.mail.Mailer;
 import com.example.demo.repository.CourseRepository;
 import com.example.demo.repository.SubscriptionRepository;
 import com.example.demo.repository.UserRepository;
-import jakarta.mail.internet.InternetAddress;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
-import lombok.SneakyThrows;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +23,7 @@ public class SubscriptionService {
   private final UserRepository userRepository;
   private final CourseRepository courseRepository;
   private final SubscriptionRepository subscriptionRepository;
-  private final Mailer mailer;
+  private final EventProducer<SubscriptionConfirmed> eventProducer;
 
   @Transactional
   public void subscribe(UUID userId, UUID courseId) {
@@ -45,19 +43,13 @@ public class SubscriptionService {
     }
 
     subscriptionRepository.save(new Subscription(subscriptionId, user, course, Instant.now()));
-    sendConfirmationEmail(user, course);
-  }
 
-  @SneakyThrows
-  private void sendConfirmationEmail(User user, Course course) {
-    var to = new InternetAddress(user.getEmail());
-    var subject = "Confirmation d'inscription - " + course.getTitle();
-    var body =
-        "<p>Bonjour "
-            + user.getFirstName()
-            + ", votre inscription au cours <b>"
-            + course.getTitle()
-            + "</b> est confirmée.</p>";
-    mailer.accept(new Email(to, List.of(), List.of(), subject, body, List.of()));
+    eventProducer.accept(
+        List.of(
+            SubscriptionConfirmed.builder()
+                .to(user.getEmail())
+                .firstName(user.getFirstName())
+                .courseTitle(course.getTitle())
+                .build()));
   }
 }

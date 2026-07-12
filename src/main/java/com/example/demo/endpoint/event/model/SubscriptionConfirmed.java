@@ -15,17 +15,17 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = false)
 @ToString
 public class SubscriptionConfirmed extends PojaEvent {
-    private String to;
-    private String firstName;
-    private String courseTitle;
+  private String to;
+  private String firstName;
+  private String courseTitle;
 
-    @Override
-    public Duration maxConsumerDuration() {
-        return Duration.ofSeconds(45);
-    }
+  @Override
+  public Duration maxConsumerDuration() {
+    return Duration.ofSeconds(45);
+  }
 
-    @Override
-    public Duration maxConsumerBackoffBetweenRetries() {
-        return Duration.ofSeconds(30);
-    }
+  @Override
+  public Duration maxConsumerBackoffBetweenRetries() {
+    return Duration.ofSeconds(30);
+  }
 }
