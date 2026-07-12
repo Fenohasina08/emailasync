@@ -18,14 +18,14 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Course {
-    @Id private UUID id;
+  @Id private UUID id;
 
-    @Column(nullable = false)
-    private String title;
+  @Column(nullable = false)
+  private String title;
 
-    @Column(name = "start_date", nullable = false)
-    private Instant startDate;
+  @Column(name = "start_date", nullable = false)
+  private Instant startDate;
 
-    @Column(name = "end_date", nullable = false)
-    private Instant endDate;
+  @Column(name = "end_date", nullable = false)
+  private Instant endDate;
 }

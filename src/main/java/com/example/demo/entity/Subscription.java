@@ -25,29 +25,29 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Subscription {
-    @EmbeddedId private SubscriptionId id;
+  @EmbeddedId private SubscriptionId id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("userId")
-    @JoinColumn(name = "user_id")
-    private User user;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @MapsId("userId")
+  @JoinColumn(name = "user_id")
+  private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("courseId")
-    @JoinColumn(name = "course_id")
-    private Course course;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @MapsId("courseId")
+  @JoinColumn(name = "course_id")
+  private Course course;
 
-    @Column(name = "subscribed_at", nullable = false)
-    private Instant subscribedAt;
+  @Column(name = "subscribed_at", nullable = false)
+  private Instant subscribedAt;
 
-    @Embeddable
-    @Getter
-    @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @EqualsAndHashCode
-    public static class SubscriptionId implements Serializable {
-        private UUID userId;
-        private UUID courseId;
-    }
+  @Embeddable
+  @Getter
+  @Setter
+  @NoArgsConstructor
+  @AllArgsConstructor
+  @EqualsAndHashCode
+  public static class SubscriptionId implements Serializable {
+    private UUID userId;
+    private UUID courseId;
+  }
 }

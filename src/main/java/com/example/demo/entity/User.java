@@ -17,17 +17,17 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
-    @Id private UUID id;
+  @Id private UUID id;
 
-    @Column(name = "first_name", nullable = false)
-    private String firstName;
+  @Column(name = "first_name", nullable = false)
+  private String firstName;
 
-    @Column(name = "last_name", nullable = false)
-    private String lastName;
+  @Column(name = "last_name", nullable = false)
+  private String lastName;
 
-    @Column(name = "user_name", nullable = false)
-    private String userName;
+  @Column(name = "user_name", nullable = false)
+  private String userName;
 
-    @Column(nullable = false)
-    private String email;
+  @Column(nullable = false)
+  private String email;
 }
